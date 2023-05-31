@@ -3,10 +3,12 @@ package database;
 public class User {
     private String name;
     private String surname;
+    private int id;
 
-    public User(String name, String surname){
+    public User(String name, String surname, int id){
         setName(name);
         setSurname(surname);
+        setId(id);
     }
 
     public void setName(String name) {
@@ -17,11 +19,19 @@ public class User {
         this.surname = surname;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public String getName() {
         return name;
     }
 
     public String getSurname() {
         return surname;
+    }
+
+    public int getId() {
+        return id;
     }
 }

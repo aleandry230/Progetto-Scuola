@@ -51,7 +51,7 @@ public class DatabaseController {
     public int getUserId(String name, String surname){
         int student_id = 0;
         try{
-            PreparedStatement stmt = con.prepareStatement(("SELECT id FROM account WHERE name=? AND surname=?"));
+            PreparedStatement stmt = con.prepareStatement(("SELECT id FROM insegnanti WHERE name=? AND surname=?"));
             stmt.setString(1, name);
             stmt.setString(2, surname);
             ResultSet rs = stmt.executeQuery();
@@ -96,7 +96,7 @@ public class DatabaseController {
     public boolean isLogin(String email, String password){
         boolean res = false;
         try{
-            PreparedStatement stmt = con.prepareStatement(("SELECT * FROM account WHERE email=? AND password=?"));
+            PreparedStatement stmt = con.prepareStatement(("SELECT * FROM insegnanti WHERE email=? AND password=? "));
             stmt.setString(1, email);
             stmt.setString(2, password);
             ResultSet rs = stmt.executeQuery();
@@ -115,13 +115,13 @@ public class DatabaseController {
         User user = null;
 
         try{
-            PreparedStatement stmt = con.prepareStatement(("SELECT * FROM account WHERE email=? AND password=?"));
+            PreparedStatement stmt = con.prepareStatement(("SELECT * FROM insegnanti WHERE email=? AND password=?"));
             stmt.setString(1, email);
             stmt.setString(2, password);
             ResultSet rs = stmt.executeQuery();
 
             if(rs.next() == true){
-                user = new User(rs.getString("name"),rs.getString("surname"));
+                user = new User(rs.getString("name"),rs.getString("surname"), rs.getInt("id"));
             }
 
         }catch (SQLException e){

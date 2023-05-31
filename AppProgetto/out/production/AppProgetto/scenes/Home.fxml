@@ -7,7 +7,8 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.HomeController">
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.HomeController">
    <children>
       <VBox layoutX="387.0" layoutY="250.0" prefHeight="200.0" prefWidth="218.0" style="-fx-alignment: center; -fx-spacing: 20;">
          <children>
@@ -16,11 +17,11 @@
                   <Font size="25.0" />
                </font>
             </Text>
-            <ChoiceBox prefHeight="25.0" prefWidth="221.0" />
-            <Button mnemonicParsing="false" prefHeight="37.0" prefWidth="227.0" style="-fx-padding: 5; -fx-background-color: #09A1E1;" text="Conferma" textFill="WHITE" />
+            <ChoiceBox fx:id="listaClassi" prefHeight="25.0" prefWidth="221.0" stylesheets="@../assets/style.css" />
+            <Button fx:id="loginButton" mnemonicParsing="false" onAction="#insertVote" prefHeight="25.0" prefWidth="223.0" style="-fx-background-radius: 5; -fx-background-color: #09A1E1;" text="Conferma" textFill="WHITE" />
          </children>
       </VBox>
-      <Label fx:id="nameLabel" layoutX="26.0" layoutY="31.0" prefHeight="45.0" prefWidth="272.0" text="NameLabel">
+      <Label fx:id="nameLabel" layoutX="26.0" layoutY="31.0" prefHeight="45.0" prefWidth="794.0" text="NameLabel">
          <font>
             <Font size="30.0" />
          </font>
