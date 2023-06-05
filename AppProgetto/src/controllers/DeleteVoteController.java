@@ -1,7 +1,6 @@
 package controllers;
 
 import database.DatabaseController;
-import database.Dati;
 import database.User;
 import database.Voto;
 import javafx.event.ActionEvent;
@@ -10,22 +9,22 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
-public class InsertVoteController implements Initializable {
+public class DeleteVoteController implements Initializable {
     @FXML
-    private TextField voteField;
+    private Button eliminaButton;
     @FXML
     private Label labelStudent;
     @FXML
@@ -90,33 +89,33 @@ public class InsertVoteController implements Initializable {
     }
 
     @FXML
-    private void inserisciVoto(ActionEvent event){
-        String[] student = getStudentName().split(" ");
-        String name = student[0];
-        String surname = student[1];
-        int id = 0;
-        String subject = "";
+    private void eliminaVoto(ActionEvent event) {
+        Voto voto = tabellaVoti.getSelectionModel().getSelectedItem();
+        if (voto != null) {
+            eliminaVotoSelezionato(voto);
+            tabellaVoti.getItems().remove(voto);
+        }
+    }
+    private void eliminaVotoSelezionato(Voto voto) {
         try {
-            PreparedStatement stmt = cnn.prepareStatement(("SELECT id FROM appscuola.account WHERE name=? AND surname=?"));
-            stmt.setString(1, name);
-            stmt.setString(2, surname);
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()) {
-                id = rs.getInt("id");
+            int student_id = 0;
+            String[] student = getStudentName().split(" ");
+            String name = student[0];
+            String surname = student[1];
+            PreparedStatement stmt1 = cnn.prepareStatement("SELECT id FROM account WHERE name=? AND surname=?");
+            stmt1.setString(1, name);
+            stmt1.setString(2, surname);
+            ResultSet rs = stmt1.executeQuery();
+            while (rs.next()){
+                student_id = rs.getInt("id");
             }
 
-            PreparedStatement stmt2 = cnn.prepareStatement(("SELECT subject FROM insegnanti WHERE id=?"));
-            stmt2.setInt(1, user.getId());
-            ResultSet rs2 = stmt2.executeQuery();
-            while (rs2.next()) {
-                subject = rs2.getString("subject");
-            }
-
-            db.INSERT_VOTO(id, voteField.getText(), subject);
-
+            PreparedStatement stmt = cnn.prepareStatement("DELETE FROM voti WHERE vote=? AND student_id = ?");
+            stmt.setInt(1, voto.getVoto());
+            stmt.setInt(2, student_id);
+            stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
-            // Gestisci eventuali errori durante l'inserimento del voto nel database
         }
     }
     @FXML
@@ -150,5 +149,6 @@ public class InsertVoteController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         voto.setCellValueFactory(new PropertyValueFactory<>("Voto"));
+        eliminaButton.setOnAction(this::eliminaVoto);
     }
 }

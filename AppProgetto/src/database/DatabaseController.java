@@ -32,7 +32,7 @@ public class DatabaseController {
 
     public void SELECT_VOTI(int student_id){
         try {
-            PreparedStatement stmt = con.prepareStatement("SELECT * FROM voti INNER JOIN account WHERE voti.student_id = ?");
+            PreparedStatement stmt = con.prepareStatement(("SELECT * FROM voti INNER JOIN account WHERE student_id = ?"));
             stmt.setInt(1, student_id);
             ResultSet rs = stmt.executeQuery();
 

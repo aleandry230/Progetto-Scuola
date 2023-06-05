@@ -28,3 +28,33 @@ app.get("/api/getVoti", (req, res) => {
     console.log(err);
   });
 });
+
+app.post("/api/login", (req, res) => {
+  const email = req.body.email;
+  const password = req.body.password;
+
+  const sqlinsert = "SELECT * FROM account WHERE email = ? AND password = ?";
+  db.query(sqlinsert, [email, password], (err, result) => {
+    if (err) {
+      res.status(500).send(err);
+    } else {
+      if (result.length > 0) {
+        req.session.isAuth = true;
+        console.log(req.session);
+
+        res.status(200).send({
+          session_id: req.sessionID,
+          sessio_duration: req.session.cookie,
+          id: result[0].client_id,
+          name: result[0].name,
+          surname: result[0].surname,
+          email: result[0].email,
+          isAdmin: result[0].isAdmin,
+          isManager: result[0].isManager,
+        });
+      } else {
+        res.status(400).send("Account Inesistente");
+      }
+    }
+  });
+});

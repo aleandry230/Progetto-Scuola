@@ -1,5 +1,6 @@
 package controllers;
 import database.DatabaseController;
+import database.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,15 +17,15 @@ import java.sql.*;
 import java.util.ResourceBundle;
 
 public class HomeController implements Initializable {
-    private String displayName;
-    private int id;
     @FXML
-    private ChoiceBox<String> listaClassi;
+    private ComboBox<String> listaClassi;
 
     @FXML
     private Label nameLabel;
 
 
+    private static int ID;
+    private User user;
     private DatabaseController db;
 
     private Connection cnn;
@@ -34,14 +35,12 @@ public class HomeController implements Initializable {
         cnn = db.DB_Connection();
     }
 
-    private void loadClasses() {
-        db = new DatabaseController("jdbc:mysql://localhost/appscuola", "root", "");
-        cnn = db.DB_Connection();
-
+    private void loadClasses(int id) {
+        setConnection();
         // Esegui la query per ottenere i dati dal database
         try {
-            PreparedStatement stmt = cnn.prepareStatement(("SELECT * FROM classe INNER JOIN classi_insegnanti WHERE teacher_id=?"));
-            stmt.setInt(1, getId());
+            PreparedStatement stmt = cnn.prepareStatement(("SELECT * FROM classi_insegnanti INNER JOIN classe WHERE teacher_id=?"));
+            stmt.setInt(1, id);
             ResultSet rs = stmt.executeQuery();
 
             // Pulisci il ChoiceBox
@@ -59,49 +58,47 @@ public class HomeController implements Initializable {
         }
     }
 
+
     @FXML
     private void insertVote(ActionEvent e)throws IOException {
         String classeScelta = listaClassi.getSelectionModel().getSelectedItem();
         if(classeScelta!=null){
             Stage stage = (Stage) ((Node)e.getSource()).getScene().getWindow();
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("../scenes/InsertVote.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../scenes/Student_list.fxml"));
             AnchorPane root = loader.load();
-            InsertVoteController insertVoteController = loader.getController();
-            insertVoteController.setConnection();
+            StudentListController studentListController = loader.getController();
+            studentListController.setConnection();
             stage.setScene(new Scene(root, 1000, 700));
-            stage.setTitle("Registro Elettronico | Inserisci Voto");
-            insertVoteController.displayName(classeScelta, displayName,getId());
+            stage.setTitle("Registro Elettronico | "+ classeScelta +" Visualizza studenti");
+            studentListController.displayName(classeScelta, user);
         }
     }
 
 
 
-    public void displayName(String displayName,int id){
-        setDisplayName(displayName);
-        setId(id);
-        nameLabel.setText(displayName);
-
+    public void displayName(User user){
+        this.user = user;
+        setID(user.getId());
+        nameLabel.setText("Ciao, "+ user.getName());
     }
-    public void displayNameCallBack(String displayName, int id){
-        setDisplayName(displayName);
-        setId(id);
-        nameLabel.setText(displayName);
+    public void displayNameCallBack(User user){
+        this.user = user;
+        nameLabel.setText("Ciao, "+ user.getName());
+    }
+
+    public void setID(int ID) {
+        this.ID = ID;
+        loadClasses(ID);
+    }
+
+    public int getID() {
+        return ID;
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        loadClasses();
+       loadClasses(ID);
     }
 
-    public void setDisplayName(String displayName) {
-        this.displayName = displayName;
-    }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public int getId() {
-        return id;
-    }
 }

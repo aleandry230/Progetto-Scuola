@@ -15,8 +15,7 @@ import java.io.IOException;
 import java.sql.Connection;
 
 public class LoginController{
-    private String displayName;
-    private int id;
+    private User user;
     @FXML
     private TextField emailField;
 
@@ -46,7 +45,6 @@ public class LoginController{
     private void login(ActionEvent e) throws IOException{
         String username = emailField.getText();
         String password = passwordField.getText();
-        System.out.println(db.isLogin(username, password));
         setLogged(db.isLogin(username, password));
 
         if(isLogged()) {
@@ -57,26 +55,8 @@ public class LoginController{
             homeController.setConnection();
             stage.setScene(new Scene(root, 1000, 700));
             stage.setTitle("Registro Elettronico | Home");
-            User user = db.getUserInfo(username, password);
-            setDisplayName("Ciao, "+ user.getName() + " " + user.getSurname());
-            setId(user.getId());
-            homeController.displayName(getDisplayName(), getId());
+            User utente = db.getUserInfo(username, password);
+            homeController.displayName(utente);
         }
-    }
-
-    public void setDisplayName(String displayName) {
-        this.displayName = displayName;
-    }
-
-    public String getDisplayName() {
-        return displayName;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public int getId() {
-        return id;
     }
 }

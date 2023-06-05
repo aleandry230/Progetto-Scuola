@@ -4,36 +4,61 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
-<AnchorPane fx:controller="controllers.LoginController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.LoginController">
    <children>
-      <AnchorPane layoutX="10.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0">
+      <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #1C1C1C;">
          <children>
-            <VBox layoutX="194.0" layoutY="100.0" prefHeight="200.0" prefWidth="207.0" style="-fx-alignment: center; -fx-spacing: 20;">
+            <VBox layoutX="194.0" layoutY="80.0" prefHeight="200.0" prefWidth="207.0" style="-fx-alignment: center; -fx-spacing: 20;">
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Login" textAlignment="CENTER" wrappingWidth="211.13671875">
+                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Login" textAlignment="CENTER" wrappingWidth="211.13671875">
                      <font>
-                        <Font size="20.0" />
+                        <Font name="Arial Rounded MT Bold" size="28.0" />
                      </font>
                   </Text>
-                  <VBox prefHeight="200.0" prefWidth="100.0">
+                  <VBox prefHeight="200.0" prefWidth="211.0" style="-fx-spacing: 10;">
                      <children>
-                        <Label prefHeight="17.0" prefWidth="240.0" text="Email" />
+                        <Label prefHeight="30.0" prefWidth="211.0" text="Email" textFill="WHITE">
+                           <font>
+                              <Font name="Arial Rounded MT Bold" size="12.0" />
+                           </font>
+                           <graphic>
+                              <ImageView fitHeight="20.0" fitWidth="20.0">
+                                 <image>
+                                    <Image url="@../assets/person_1.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Label>
                         <TextField fx:id="emailField" promptText="Email" />
                      </children>
                   </VBox>
-                  <VBox prefHeight="200.0" prefWidth="100.0">
+                  <VBox prefHeight="200.0" prefWidth="100.0" style="-fx-spacing: 10;">
                      <children>
-                        <Label prefHeight="17.0" prefWidth="227.0" text="Password" />
-                        <PasswordField fx:id="passwordField" promptText="Password" />
+                        <Label prefHeight="17.0" prefWidth="227.0" text="Password" textFill="WHITE">
+                           <font>
+                              <Font name="Arial Rounded MT Bold" size="12.0" />
+                           </font>
+                           <graphic>
+                              <ImageView fitHeight="20.0" fitWidth="20.0">
+                                 <image>
+                                    <Image url="@../assets/padlock_1.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic></Label>
+                        <PasswordField fx:id="passwordField" prefHeight="14.0" prefWidth="211.0" promptText="Password" />
                      </children>
                   </VBox>
-                  <Button fx:id="loginButton" mnemonicParsing="false" onAction="#login" prefHeight="25.0" prefWidth="223.0" style="-fx-background-radius: 5; -fx-background-color: #09A1E1;" text="Login" textFill="WHITE" />
+                  <Button fx:id="loginButton" maxHeight="1.7976931348623157E308" mnemonicParsing="false" onAction="#login" prefHeight="25.0" prefWidth="223.0" style="-fx-background-radius: 5; -fx-background-color: #5AA9E6;" text="Login" textAlignment="CENTER" textFill="WHITE" textOverrun="WORD_ELLIPSIS">
+                     <font>
+                        <Font name="Arial Rounded MT Bold" size="14.0" />
+                     </font></Button>
                </children>
             </VBox>
          </children>
